@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="ReferSplat: Referring Segmentation in 3D Gaussian Splatting">
+  <meta name="keywords" content="ReferSplat, R3DGS, Referring Segmentation, 3D Gaussian Splatting, Ref-LERF, ICML 2025">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReferSplat: Referring Segmentation in 3D Gaussian Splatting</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/logo.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://heshuting555.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://github.com/heshuting555/ReferSplat">
+            ReferSplat (Code)
+          </a>
+          <a class="navbar-item" href="https://arxiv.org/abs/2508.08252">
+            ReferSplat (arXiv)
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">ReferSplat: Referring Segmentation in 3D Gaussian Splatting</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://heshuting555.github.io/">Shuting He</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              Guangquan Jie<sup>2*</sup>,</span>
+            <span class="author-block">
+              Changshuo Wang<sup>1</sup>,
+            </span>
+            <span class="author-block">
+              Yun Zhou<sup>1</sup>,
+            </span>
+            <span class="author-block">
+              Shuming Hu<sup>1</sup>,
+            </span>
+            <span class="author-block">
+              Guanbin Li<sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://henghuiding.github.io/">Henghui Ding</a><sup>2&#9993;</sup>
+            </span>
+            <br>
+            <span class="author-block">
+              (* indicates equal contribution, &#9993; indicates corresponding author)
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Shanghai University of Finance and Economics,</span>
+            <span class="author-block"><sup>2</sup>Fudan University,</span>
+            <span class="author-block"><sup>3</sup>Sun Yat-sen University</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><font color="red"><b>ICML 2025 (Oral)</b></font></span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2508.08252"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2508.08252"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/heshuting555/ReferSplat"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://github.com/heshuting555/ReferSplat#dataset"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-database"></i>
+                  </span>
+                  <span>Ref-LERF Dataset</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- TL;DR + Teaser. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            <b>TL;DR:</b> We introduce <b>R3DGS</b> &mdash; the task of segmenting objects in a 3D Gaussian scene from a <i>natural-language referring expression</i> &mdash; release the first dataset (<b>Ref-LERF</b>), and propose <b>ReferSplat</b>, which explicitly models 3D Gaussians with language in a spatially aware paradigm and reaches state-of-the-art on both R3DGS and 3D open-vocabulary segmentation.
+          </p>
+        </div>
+        <div class="hero-body">
+          <img src="./static/images/teaser.png" alt="ReferSplat teaser figure"/>
+        </div>
+      </div>
+    </div>
+    <!--/ TL;DR + Teaser. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We introduce <b>Referring 3D Gaussian Splatting Segmentation (R3DGS)</b>, a new task that aims to
+            segment target objects in a 3D Gaussian scene based on natural language descriptions, which often
+            contain spatial relationships or object attributes. This task requires the model to identify newly
+            described objects that may be occluded or not directly visible in a novel view, posing a significant
+            challenge for 3D multi-modal understanding. Developing this capability is crucial for advancing
+            embodied AI.
+          </p>
+          <p>
+            To support research in this area, we construct the first R3DGS dataset, <b>Ref-LERF</b>. Our analysis
+            reveals that 3D multi-modal understanding and spatial relationship modeling are key challenges for
+            R3DGS. To address these challenges, we propose <b>ReferSplat</b>, a framework that explicitly models
+            3D Gaussian points with natural language expressions in a spatially aware paradigm. ReferSplat
+            achieves state-of-the-art performance on both the newly proposed R3DGS task and 3D open-vocabulary
+            segmentation benchmarks. Dataset and code are available at
+            <a href="https://github.com/heshuting555/ReferSplat">github.com/heshuting555/ReferSplat</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+
+        <h3 class="title is-4">The R3DGS Task</h3>
+        <div class="content has-text-justified">
+          <p>
+            Given a 3D Gaussian scene and a natural-language expression such as
+            <i>&ldquo;the mug behind the laptop on the left&rdquo;</i>, R3DGS asks a model to return the
+            3D Gaussians that belong to the referred object. Unlike open-vocabulary 3D segmentation, the
+            referring expression typically encodes <b>spatial relationships</b> and <b>discriminative
+            attributes</b>, and the target may be occluded or not visible in any single view.
+          </p>
+        </div>
+
+        <h3 class="title is-4">Method</h3>
+        <div class="content has-text-justified">
+          <p>
+            <b>ReferSplat</b> attaches a language-aware embedding to each 3D Gaussian and grounds the
+            referring expression in a <i>spatially aware</i> paradigm, jointly reasoning about object
+            semantics and inter-object spatial relations directly in the 3D Gaussian representation.
+            This design allows ReferSplat to localize occluded targets and to disambiguate objects that
+            differ only by their spatial context.
+          </p>
+          <div class="hero-body">
+            <img src="./static/images/architecture.png" alt="ReferSplat architecture overview"/>
+          </div>
+          <p>
+            <b>Figure 2.</b> Overview of ReferSplat. We infuse language-awareness into 3D Gaussians via
+            <i>3D Gaussian Referring Fields</i>, and follow with a <i>Position-aware Cross-Modal
+            Interaction</i> module that grounds the referring expression on the generated pseudo
+            masks.
+          </p>
+        </div>
+
+        <h3 class="title is-4">Ref-LERF Dataset</h3>
+        <div class="content has-text-justified">
+          <p>
+            We construct <b>Ref-LERF</b>, the first dataset for Referring 3D Gaussian Splatting
+            Segmentation. It extends LERF scenes with natural-language referring expressions and
+            per-Gaussian object annotations, enabling evaluation of language-conditioned 3D
+            segmentation under spatial reasoning.
+          </p>
+          <div class="hero-body has-text-centered">
+            <img src="./static/images/dataset.png"
+                 alt="Ref-LERF dataset analysis: word cloud and token-length histogram"
+                 style="max-width: 70%; height: auto;"/>
+          </div>
+          <p>
+            <b>Figure 4.</b> Ref-LERF expressions are rich in spatial language (<i>placed</i>,
+            <i>near</i>, <i>next</i>, <i>behind</i>, <i>under</i>) and considerably longer than the
+            LERF-OVS expressions used in prior open-vocabulary 3D benchmarks.
+          </p>
+        </div>
+
+        <h3 class="title is-4">Results</h3>
+        <div class="content has-text-justified">
+          <p>
+            ReferSplat establishes state-of-the-art results on the new <b>R3DGS</b> benchmark and also
+            improves over prior work on standard <b>3D open-vocabulary segmentation</b>. See the
+            <a href="https://arxiv.org/pdf/2508.08252">paper</a> for full quantitative comparisons and
+            ablations.
+          </p>
+          <div class="hero-body">
+            <img src="./static/images/qualitative.png" alt="Qualitative R3DGS comparison on Ref-LERF: figurines, ramen, teatime, kitchen"/>
+          </div>
+          <p>
+            <b>Figure 5.</b> Qualitative R3DGS comparison on Ref-LERF. Given a natural-language
+            expression with spatial cues (highlighted in <font color="#1f77b4">blue</font>),
+            Grounded-SAM, LangSplat and GaussianGrouping struggle to localize the correct object,
+            while ReferSplat closely matches the ground truth.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{he2025refersplat,
+  title     = {ReferSplat: Referring Segmentation in 3D Gaussian Splatting},
+  author    = {He, Shuting and Jie, Guangquan and Wang, Changshuo and Zhou, Yun and Hu, Shuming and Li, Guanbin and Ding, Henghui},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2025}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            The source code is borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">nerfies</a>
+            and <a href="https://langsplat.github.io/">LangSplat</a>,
+            we thank the authors for sharing the templates.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
