@@ -20,6 +20,28 @@
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/logo.svg">
 
+  <style>
+    /* Centered, uniform-width paper figures. */
+    .paper-figure {
+      display: block;
+      width: 100%;
+      max-width: 1100px;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    .paper-figure:hover { transform: scale(1.01); }
+    .figure-caption {
+      text-align: center;
+      margin-top: 0.6rem;
+      margin-bottom: 0;
+      color: #555;
+      font-style: italic;
+    }
+  </style>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
@@ -164,9 +186,13 @@
             <b>TL;DR:</b> We introduce <b>R3DGS</b> &mdash; the task of segmenting objects in a 3D Gaussian scene from a <i>natural-language referring expression</i> &mdash; release the first dataset (<b>Ref-LERF</b>), and propose <b>ReferSplat</b>, which explicitly models 3D Gaussians with language in a spatially aware paradigm and reaches state-of-the-art on both R3DGS and 3D open-vocabulary segmentation.
           </p>
         </div>
-        <div class="hero-body">
-          <img src="./static/images/teaser.png" alt="ReferSplat teaser figure"/>
-        </div>
+        <img src="./static/images/teaser.png"
+             alt="R3DGS task overview"
+             class="paper-figure">
+        <p class="figure-caption">
+          <b>Figure 1.</b> R3DGS segments objects in a 3D Gaussian scene from a natural-language
+          description &mdash; including objects that may be occluded or invisible in a novel view.
+        </p>
       </div>
     </div>
     <!--/ TL;DR + Teaser. -->
@@ -211,34 +237,43 @@
     <div class="columns is-centered">
       <div class="column is-full-width">
 
-        <h3 class="title is-4">The R3DGS Task</h3>
+        <h3 class="title is-4">Motivation</h3>
         <div class="content has-text-justified">
           <p>
             Given a 3D Gaussian scene and a natural-language expression such as
-            <i>&ldquo;the mug behind the laptop on the left&rdquo;</i>, R3DGS asks a model to return the
-            3D Gaussians that belong to the referred object. Unlike open-vocabulary 3D segmentation, the
-            referring expression typically encodes <b>spatial relationships</b> and <b>discriminative
-            attributes</b>, and the target may be occluded or not visible in any single view.
+            <i>&ldquo;the mug behind the laptop on the left&rdquo;</i>, R3DGS asks a model to
+            return the 3D Gaussians belonging to the referred object. Unlike open-vocabulary 3D
+            segmentation &mdash; which matches isolated concept words to 3D regions &mdash;
+            referring expressions encode <b>spatial relationships</b> and
+            <b>discriminative attributes</b>, and the target may be occluded or not visible in any
+            single view. Existing pipelines fall short on both fronts.
+          </p>
+          <img src="./static/images/motivation.png"
+               alt="Pipeline comparison: existing open-vocabulary 3DGS vs. ReferSplat"
+               class="paper-figure">
+          <p class="figure-caption">
+            <b>Figure 2.</b> Comparison of (a) the existing open-vocabulary 3DGS segmentation
+            pipeline and (b) the proposed ReferSplat for R3DGS.
           </p>
         </div>
 
         <h3 class="title is-4">Method</h3>
         <div class="content has-text-justified">
           <p>
-            <b>ReferSplat</b> attaches a language-aware embedding to each 3D Gaussian and grounds the
-            referring expression in a <i>spatially aware</i> paradigm, jointly reasoning about object
-            semantics and inter-object spatial relations directly in the 3D Gaussian representation.
-            This design allows ReferSplat to localize occluded targets and to disambiguate objects that
-            differ only by their spatial context.
+            <b>ReferSplat</b> attaches a language-aware <i>referring feature</i> to each 3D
+            Gaussian, building a <b>3D Gaussian Referring Field</b>. Segmentation masks are
+            obtained by modulating these referring features with the word features
+            <i>f<sub>w</sub></i>, supervised with generated pseudo masks. A
+            <b>Position-aware Cross-Modal Interaction</b> module further grounds the referring
+            expression on the rendered output, jointly reasoning about object semantics and
+            inter-object spatial relations directly in the 3D Gaussian representation.
           </p>
-          <div class="hero-body">
-            <img src="./static/images/architecture.png" alt="ReferSplat architecture overview"/>
-          </div>
-          <p>
-            <b>Figure 2.</b> Overview of ReferSplat. We infuse language-awareness into 3D Gaussians via
-            <i>3D Gaussian Referring Fields</i>, and follow with a <i>Position-aware Cross-Modal
-            Interaction</i> module that grounds the referring expression on the generated pseudo
-            masks.
+          <img src="./static/images/method.png"
+               alt="ReferSplat method overview"
+               class="paper-figure">
+          <p class="figure-caption">
+            <b>Figure 3.</b> Overview of ReferSplat &mdash; 3D Gaussian Referring Fields followed by
+            Position-aware Cross-Modal Interaction.
           </p>
         </div>
 
@@ -250,34 +285,32 @@
             per-Gaussian object annotations, enabling evaluation of language-conditioned 3D
             segmentation under spatial reasoning.
           </p>
-          <div class="hero-body has-text-centered">
-            <img src="./static/images/dataset.png"
-                 alt="Ref-LERF dataset analysis: word cloud and token-length histogram"
-                 style="max-width: 70%; height: auto;"/>
-          </div>
-          <p>
-            <b>Figure 4.</b> Ref-LERF expressions are rich in spatial language (<i>placed</i>,
-            <i>near</i>, <i>next</i>, <i>behind</i>, <i>under</i>) and considerably longer than the
-            LERF-OVS expressions used in prior open-vocabulary 3D benchmarks.
+          <img src="./static/images/ref_lerf_dataset.png"
+               alt="Ref-LERF dataset analysis"
+               class="paper-figure">
+          <p class="figure-caption">
+            <b>Figure 4.</b> Dataset analysis of Ref-LERF. Expressions are rich in spatial language
+            (<i>placed</i>, <i>near</i>, <i>next</i>, <i>behind</i>, <i>under</i>) and substantially
+            longer than the LERF-OVS expressions used in prior open-vocabulary 3D benchmarks.
           </p>
         </div>
 
         <h3 class="title is-4">Results</h3>
         <div class="content has-text-justified">
           <p>
-            ReferSplat establishes state-of-the-art results on the new <b>R3DGS</b> benchmark and also
-            improves over prior work on standard <b>3D open-vocabulary segmentation</b>. See the
-            <a href="https://arxiv.org/pdf/2508.08252">paper</a> for full quantitative comparisons and
-            ablations.
+            ReferSplat establishes state-of-the-art results on the new <b>R3DGS</b> benchmark and
+            also improves over prior work on standard <b>3D open-vocabulary segmentation</b>. See
+            the <a href="https://arxiv.org/pdf/2508.08252">paper</a> for full quantitative
+            comparisons and ablations.
           </p>
-          <div class="hero-body">
-            <img src="./static/images/qualitative.png" alt="Qualitative R3DGS comparison on Ref-LERF: figurines, ramen, teatime, kitchen"/>
-          </div>
-          <p>
-            <b>Figure 5.</b> Qualitative R3DGS comparison on Ref-LERF. Given a natural-language
-            expression with spatial cues (highlighted in <font color="#1f77b4">blue</font>),
-            Grounded-SAM, LangSplat and GaussianGrouping struggle to localize the correct object,
-            while ReferSplat closely matches the ground truth.
+          <img src="./static/images/qualitative_r3dgs.png"
+               alt="Qualitative R3DGS comparison on Ref-LERF"
+               class="paper-figure">
+          <p class="figure-caption">
+            <b>Figure 5.</b> Qualitative R3DGS comparison on Ref-LERF. Blue masks highlight spatial
+            descriptions in the referring expression. Grounded-SAM, LangSplat and GaussianGrouping
+            struggle to localize the correct object, while ReferSplat closely matches the ground
+            truth.
           </p>
         </div>
 
